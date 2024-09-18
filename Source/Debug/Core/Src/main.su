@@ -1,5 +1,5 @@
 7seg.h:1:6:display7SEG	24	static
 main.c:64:5:main	64	static
-main.c:191:6:SystemClock_Config	72	static
-main.c:227:13:MX_GPIO_Init	32	static
-main.c:277:6:Error_Handler	4	static,ignoring_inline_asm
+main.c:199:6:SystemClock_Config	72	static
+main.c:235:13:MX_GPIO_Init	32	static
+main.c:285:6:Error_Handler	4	static,ignoring_inline_asm
