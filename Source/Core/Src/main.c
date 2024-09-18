@@ -22,7 +22,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "7seg.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -102,27 +102,81 @@ int main(void)
 		  HAL_GPIO_WritePin(W1_R_GPIO_Port, W1_R_Pin, RESET);
 		  HAL_GPIO_WritePin(W1_Y_GPIO_Port, W1_Y_Pin, SET);
 		  HAL_GPIO_WritePin(W1_G_GPIO_Port, W1_G_Pin, SET);
+		  //7SEG
+		  display7SEG(count - 5,
+				  W1_SEG_0_GPIO_Port, W1_SEG_0_Pin,
+				  W1_SEG_1_GPIO_Port, W1_SEG_1_Pin,
+				  W1_SEG_2_GPIO_Port, W1_SEG_2_Pin,
+				  W1_SEG_3_GPIO_Port, W1_SEG_3_Pin,
+				  W1_SEG_4_GPIO_Port, W1_SEG_4_Pin,
+				  W1_SEG_5_GPIO_Port, W1_SEG_5_Pin,
+				  W1_SEG_6_GPIO_Port, W1_SEG_6_Pin);
 	  }
 	  if(count == 5){//W1_GREEN
 		  HAL_GPIO_WritePin(W1_G_GPIO_Port, W1_G_Pin, RESET);
 		  HAL_GPIO_WritePin(W1_R_GPIO_Port, W1_R_Pin, SET);
+		  //7SEG
+		  display7SEG(count - 2,
+		  				  W1_SEG_0_GPIO_Port, W1_SEG_0_Pin,
+		  				  W1_SEG_1_GPIO_Port, W1_SEG_1_Pin,
+		  				  W1_SEG_2_GPIO_Port, W1_SEG_2_Pin,
+		  				  W1_SEG_3_GPIO_Port, W1_SEG_3_Pin,
+		  				  W1_SEG_4_GPIO_Port, W1_SEG_4_Pin,
+		  				  W1_SEG_5_GPIO_Port, W1_SEG_5_Pin,
+		  				  W1_SEG_6_GPIO_Port, W1_SEG_6_Pin);
 	  }
 	  if(count == 2){//W1_YELLOW
 		  HAL_GPIO_WritePin(W1_Y_GPIO_Port, W1_Y_Pin, RESET);
 		  HAL_GPIO_WritePin(W1_R_GPIO_Port, W1_G_Pin, SET);
+		  //7SEG
+		  display7SEG(count - 0,
+		  				  W1_SEG_0_GPIO_Port, W1_SEG_0_Pin,
+		  				  W1_SEG_1_GPIO_Port, W1_SEG_1_Pin,
+		  				  W1_SEG_2_GPIO_Port, W1_SEG_2_Pin,
+		  				  W1_SEG_3_GPIO_Port, W1_SEG_3_Pin,
+		  				  W1_SEG_4_GPIO_Port, W1_SEG_4_Pin,
+		  				  W1_SEG_5_GPIO_Port, W1_SEG_5_Pin,
+		  				  W1_SEG_6_GPIO_Port, W1_SEG_6_Pin);
 	  }
 	  if(count >=10){//W2_GREEN
 		  HAL_GPIO_WritePin(W2_G_GPIO_Port, W2_G_Pin, RESET);
 	  	  HAL_GPIO_WritePin(W2_R_GPIO_Port, W2_R_Pin, SET);
 	  	  HAL_GPIO_WritePin(W2_Y_GPIO_Port, W2_Y_Pin, SET);
+	  	  //7SEG
+	  	  display7SEG(count - 7,
+	  					  W2_SEG_0_GPIO_Port, W2_SEG_0_Pin,
+	  					  W2_SEG_1_GPIO_Port, W2_SEG_1_Pin,
+	  					  W2_SEG_2_GPIO_Port, W2_SEG_2_Pin,
+	  					  W2_SEG_3_GPIO_Port, W2_SEG_3_Pin,
+	  					  W2_SEG_4_GPIO_Port, W2_SEG_4_Pin,
+	  					  W2_SEG_5_GPIO_Port, W2_SEG_5_Pin,
+	  					  W2_SEG_6_GPIO_Port, W2_SEG_6_Pin);
 	  }
 	  if(count == 7){//W2_YELLOW
 		  HAL_GPIO_WritePin(W2_Y_GPIO_Port, W2_Y_Pin, RESET);
 		  HAL_GPIO_WritePin(W2_G_GPIO_Port, W2_G_Pin, SET);
+		  //7SEG
+		  display7SEG(count - 5,
+		  	  			  W2_SEG_0_GPIO_Port, W2_SEG_0_Pin,
+		  	  			  W2_SEG_1_GPIO_Port, W2_SEG_1_Pin,
+		  	  			  W2_SEG_2_GPIO_Port, W2_SEG_2_Pin,
+		  	  			  W2_SEG_3_GPIO_Port, W2_SEG_3_Pin,
+		  	  			  W2_SEG_4_GPIO_Port, W2_SEG_4_Pin,
+		  	  			  W2_SEG_5_GPIO_Port, W2_SEG_5_Pin,
+		  	  			  W2_SEG_6_GPIO_Port, W2_SEG_6_Pin);
 	  }
 	  if(count == 5){//W2_RED
 		  HAL_GPIO_WritePin(W2_R_GPIO_Port, W2_R_Pin, RESET);
 		  HAL_GPIO_WritePin(W2_Y_GPIO_Port, W2_Y_Pin, SET);
+		  //7SEG
+		  display7SEG(count - 0,
+		  	  			  W2_SEG_0_GPIO_Port, W2_SEG_0_Pin,
+		  	  			  W2_SEG_1_GPIO_Port, W2_SEG_1_Pin,
+		  	  			  W2_SEG_2_GPIO_Port, W2_SEG_2_Pin,
+		  	  			  W2_SEG_3_GPIO_Port, W2_SEG_3_Pin,
+		  	  			  W2_SEG_4_GPIO_Port, W2_SEG_4_Pin,
+		  	  			  W2_SEG_5_GPIO_Port, W2_SEG_5_Pin,
+		  	  			  W2_SEG_6_GPIO_Port, W2_SEG_6_Pin);
 	  }
 	  count--;
 	  HAL_Delay(1000);
@@ -176,19 +230,39 @@ static void MX_GPIO_Init(void)
 
   /* GPIO Ports Clock Enable */
   __HAL_RCC_GPIOA_CLK_ENABLE();
+  __HAL_RCC_GPIOB_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOA, W1_R_Pin|W1_Y_Pin|W1_G_Pin|W2_R_Pin
-                          |W2_Y_Pin|W2_G_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOA, W1_SEG_0_Pin|W1_SEG_1_Pin|W1_SEG_2_Pin|W1_SEG_3_Pin
+                          |W1_R_Pin|W1_Y_Pin|W1_G_Pin|W2_R_Pin
+                          |W2_Y_Pin|W2_G_Pin|W1_SEG_4_Pin|W1_SEG_5_Pin
+                          |W1_SEG_6_Pin, GPIO_PIN_RESET);
 
-  /*Configure GPIO pins : W1_R_Pin W1_Y_Pin W1_G_Pin W2_R_Pin
-                           W2_Y_Pin W2_G_Pin */
-  GPIO_InitStruct.Pin = W1_R_Pin|W1_Y_Pin|W1_G_Pin|W2_R_Pin
-                          |W2_Y_Pin|W2_G_Pin;
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOB, W2_SEG_0_Pin|W2_SEG_1_Pin|W2_SEG_2_Pin|W2_SEG_3_Pin
+                          |W2_SEG_4_Pin|W2_SEG_5_Pin|W2_SEG_6_Pin, GPIO_PIN_RESET);
+
+  /*Configure GPIO pins : W1_SEG_0_Pin W1_SEG_1_Pin W1_SEG_2_Pin W1_SEG_3_Pin
+                           W1_R_Pin W1_Y_Pin W1_G_Pin W2_R_Pin
+                           W2_Y_Pin W2_G_Pin W1_SEG_4_Pin W1_SEG_5_Pin
+                           W1_SEG_6_Pin */
+  GPIO_InitStruct.Pin = W1_SEG_0_Pin|W1_SEG_1_Pin|W1_SEG_2_Pin|W1_SEG_3_Pin
+                          |W1_R_Pin|W1_Y_Pin|W1_G_Pin|W2_R_Pin
+                          |W2_Y_Pin|W2_G_Pin|W1_SEG_4_Pin|W1_SEG_5_Pin
+                          |W1_SEG_6_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : W2_SEG_0_Pin W2_SEG_1_Pin W2_SEG_2_Pin W2_SEG_3_Pin
+                           W2_SEG_4_Pin W2_SEG_5_Pin W2_SEG_6_Pin */
+  GPIO_InitStruct.Pin = W2_SEG_0_Pin|W2_SEG_1_Pin|W2_SEG_2_Pin|W2_SEG_3_Pin
+                          |W2_SEG_4_Pin|W2_SEG_5_Pin|W2_SEG_6_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
 }
 
