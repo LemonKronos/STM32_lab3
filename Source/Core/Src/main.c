@@ -92,6 +92,7 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   int count = 10;
+  int num1 = 0, num2 = 0;
   while (1)
   {
     /* USER CODE END WHILE */
@@ -103,89 +104,54 @@ int main(void)
 		  HAL_GPIO_WritePin(W1_Y_GPIO_Port, W1_Y_Pin, SET);
 		  HAL_GPIO_WritePin(W1_G_GPIO_Port, W1_G_Pin, SET);
 	  }
-	  if(count >5){//7SEG
-		  display7SEG(count - 5,
-				  W1_SEG_0_GPIO_Port, W1_SEG_0_Pin,
-				  W1_SEG_1_GPIO_Port, W1_SEG_1_Pin,
-				  W1_SEG_2_GPIO_Port, W1_SEG_2_Pin,
-				  W1_SEG_3_GPIO_Port, W1_SEG_3_Pin,
-				  W1_SEG_4_GPIO_Port, W1_SEG_4_Pin,
-				  W1_SEG_5_GPIO_Port, W1_SEG_5_Pin,
-				  W1_SEG_6_GPIO_Port, W1_SEG_6_Pin);
-	  }
 	  if(count == 5){//W1_GREEN
 		  HAL_GPIO_WritePin(W1_G_GPIO_Port, W1_G_Pin, RESET);
 		  HAL_GPIO_WritePin(W1_R_GPIO_Port, W1_R_Pin, SET);
-	  }
-	  if(count <= 5 && count > 2){//7SEG
-		  display7SEG(count - 2,
-		  				  W1_SEG_0_GPIO_Port, W1_SEG_0_Pin,
-		  				  W1_SEG_1_GPIO_Port, W1_SEG_1_Pin,
-		  				  W1_SEG_2_GPIO_Port, W1_SEG_2_Pin,
-		  				  W1_SEG_3_GPIO_Port, W1_SEG_3_Pin,
-		  				  W1_SEG_4_GPIO_Port, W1_SEG_4_Pin,
-		  				  W1_SEG_5_GPIO_Port, W1_SEG_5_Pin,
-		  				  W1_SEG_6_GPIO_Port, W1_SEG_6_Pin);
 	  }
 	  if(count == 2){//W1_YELLOW
 		  HAL_GPIO_WritePin(W1_Y_GPIO_Port, W1_Y_Pin, RESET);
 		  HAL_GPIO_WritePin(W1_R_GPIO_Port, W1_G_Pin, SET);
 	  }
-	  if(count <= 2){//7SEG
-		  display7SEG(count - 0,
-		  				  W1_SEG_0_GPIO_Port, W1_SEG_0_Pin,
-		  				  W1_SEG_1_GPIO_Port, W1_SEG_1_Pin,
-		  				  W1_SEG_2_GPIO_Port, W1_SEG_2_Pin,
-		  				  W1_SEG_3_GPIO_Port, W1_SEG_3_Pin,
-		  				  W1_SEG_4_GPIO_Port, W1_SEG_4_Pin,
-		  				  W1_SEG_5_GPIO_Port, W1_SEG_5_Pin,
-		  				  W1_SEG_6_GPIO_Port, W1_SEG_6_Pin);
-	  }
-
+	  //7SEG
+	  if(count > 5) num1 = count - 5;
+	  else if(count > 2 && count <= 5) num1 = count - 2;
+	  else num1 = count;
+	  display7SEG(num1,
+	 		  				  W1_SEG_0_GPIO_Port, W1_SEG_0_Pin,
+	 		  				  W1_SEG_1_GPIO_Port, W1_SEG_1_Pin,
+	 		  				  W1_SEG_2_GPIO_Port, W1_SEG_2_Pin,
+	 		  				  W1_SEG_3_GPIO_Port, W1_SEG_3_Pin,
+	 		  				  W1_SEG_4_GPIO_Port, W1_SEG_4_Pin,
+	 		  				  W1_SEG_5_GPIO_Port, W1_SEG_5_Pin,
+	 		  				  W1_SEG_6_GPIO_Port, W1_SEG_6_Pin);
 
 	  if(count >=10){//W2_GREEN
 		  HAL_GPIO_WritePin(W2_G_GPIO_Port, W2_G_Pin, RESET);
 	  	  HAL_GPIO_WritePin(W2_R_GPIO_Port, W2_R_Pin, SET);
 	  	  HAL_GPIO_WritePin(W2_Y_GPIO_Port, W2_Y_Pin, SET);
 	  }
-	  if(count > 7){//7SEG
-	  	  display7SEG(count - 7,
-	  					  W2_SEG_0_GPIO_Port, W2_SEG_0_Pin,
-	  					  W2_SEG_1_GPIO_Port, W2_SEG_1_Pin,
-	  					  W2_SEG_2_GPIO_Port, W2_SEG_2_Pin,
-	  					  W2_SEG_3_GPIO_Port, W2_SEG_3_Pin,
-	  					  W2_SEG_4_GPIO_Port, W2_SEG_4_Pin,
-	  					  W2_SEG_5_GPIO_Port, W2_SEG_5_Pin,
-	  					  W2_SEG_6_GPIO_Port, W2_SEG_6_Pin);
-	  }
 	  if(count == 7){//W2_YELLOW
 		  HAL_GPIO_WritePin(W2_Y_GPIO_Port, W2_Y_Pin, RESET);
 		  HAL_GPIO_WritePin(W2_G_GPIO_Port, W2_G_Pin, SET);
-	  }
-	  if(count <= 7 && count > 5){//7SEG
-		  display7SEG(count - 5,
-		  	  			  W2_SEG_0_GPIO_Port, W2_SEG_0_Pin,
-		  	  			  W2_SEG_1_GPIO_Port, W2_SEG_1_Pin,
-		  	  			  W2_SEG_2_GPIO_Port, W2_SEG_2_Pin,
-		  	  			  W2_SEG_3_GPIO_Port, W2_SEG_3_Pin,
-		  	  			  W2_SEG_4_GPIO_Port, W2_SEG_4_Pin,
-		  	  			  W2_SEG_5_GPIO_Port, W2_SEG_5_Pin,
-		  	  			  W2_SEG_6_GPIO_Port, W2_SEG_6_Pin);
 	  }
 	  if(count == 5){//W2_RED
 		  HAL_GPIO_WritePin(W2_R_GPIO_Port, W2_R_Pin, RESET);
 		  HAL_GPIO_WritePin(W2_Y_GPIO_Port, W2_Y_Pin, SET);
 	  }
-	  if(count <= 5){//7SEG
-		  display7SEG(count - 0,
-		  	  			  W2_SEG_0_GPIO_Port, W2_SEG_0_Pin,
-		  	  			  W2_SEG_1_GPIO_Port, W2_SEG_1_Pin,
-		  	  			  W2_SEG_2_GPIO_Port, W2_SEG_2_Pin,
-		  	  			  W2_SEG_3_GPIO_Port, W2_SEG_3_Pin,
-		  	  			  W2_SEG_4_GPIO_Port, W2_SEG_4_Pin,
-		  	  			  W2_SEG_5_GPIO_Port, W2_SEG_5_Pin,
-		  	  			  W2_SEG_6_GPIO_Port, W2_SEG_6_Pin);
-	  }
+	  //7SEG
+	  if(count >7) num2 = count - 7;
+	  else if(count > 5 && count <= 7) num2 = count -5;
+	  else num2 = count;
+	  display7SEG(num2,
+	  		  	  			  W2_SEG_0_GPIO_Port, W2_SEG_0_Pin,
+	  		  	  			  W2_SEG_1_GPIO_Port, W2_SEG_1_Pin,
+	  		  	  			  W2_SEG_2_GPIO_Port, W2_SEG_2_Pin,
+	  		  	  			  W2_SEG_3_GPIO_Port, W2_SEG_3_Pin,
+	  		  	  			  W2_SEG_4_GPIO_Port, W2_SEG_4_Pin,
+	  		  	  			  W2_SEG_5_GPIO_Port, W2_SEG_5_Pin,
+	  		  	  			  W2_SEG_6_GPIO_Port, W2_SEG_6_Pin);
+
+
 	  count--;
 	  HAL_Delay(1000);
   }
