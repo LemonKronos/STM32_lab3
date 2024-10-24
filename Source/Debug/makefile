@@ -64,8 +64,8 @@ all: main-build
 main-build: STM32_lab1.elf secondary-outputs
 
 # Tool invocations
-STM32_lab1.elf: $(OBJS) $(USER_OBJS) C:\Users\TRONG\ DAT\Documents\.MyCode\.AVR\ Microcontroller\STM32\ Project\Source\STM32F103C6TX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "STM32_lab1.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m3 -T"C:\Users\TRONG DAT\Documents\.MyCode\.AVR Microcontroller\STM32 Project\Source\STM32F103C6TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="STM32_lab1.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+STM32_lab1.elf: $(OBJS) $(USER_OBJS) C:\Users\TRONG\ DAT\Documents\.MyCode\.AVR\ Microcontroller\STM32\ Project\STM32_lab1\Source\STM32F103C6TX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "STM32_lab1.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m3 -T"C:\Users\TRONG DAT\Documents\.MyCode\.AVR Microcontroller\STM32 Project\STM32_lab1\Source\STM32F103C6TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="STM32_lab1.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
