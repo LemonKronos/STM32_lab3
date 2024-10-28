@@ -10,8 +10,11 @@
 
 #include "main.h"
 
-void button_reading(void);
-unsigned char is_button_pressed(unsigned char index);
-unsigned char is_button_pressed_1s(unsigned char index);
+GPIO_PinState button_pin_buffer(uint8_t index);
+void button_reading();
+unsigned char is_button_press(unsigned char index);
+unsigned char is_button_hold(unsigned char index);
+unsigned char is_button_double_tap(unsigned char index);
+unsigned char is_button_tap_hold(unsigned char index);
 
 #endif /* INC_INPUT_READING_H_ */
