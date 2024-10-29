@@ -92,6 +92,10 @@ void Error_Handler(void);
 #define SEG5_GPIO_Port GPIOA
 #define SEG6_Pin GPIO_PIN_13
 #define SEG6_GPIO_Port GPIOA
+#define TEST_Timer_Pin GPIO_PIN_14
+#define TEST_Timer_GPIO_Port GPIOA
+#define TEST_Button_Pin GPIO_PIN_15
+#define TEST_Button_GPIO_Port GPIOA
 #define LED1_R_Pin GPIO_PIN_3
 #define LED1_R_GPIO_Port GPIOB
 #define LED1_Y_Pin GPIO_PIN_4

@@ -24,6 +24,10 @@
 /* USER CODE BEGIN Includes */
 #include "software_timer.h"
 #include "input_processing.h"
+#include "fsm_run.h"
+#include "traffic_light.h"
+#include "input_reading.h"
+#include "global.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -95,12 +99,23 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+  set_timer(1000, &timer_flag[0]);
+  set_timer(1000, &timer_flag[1]);
+  set_timer(1000, &timer_flag[2]);
+
   while (1)
   {
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	  fsm_for_input_processing () ;
+	  // UNIT TEST
+	  unit_test_software_timer();
+//	  unit_test_7seg();
+	  unit_test_button_read();
+
+	  // FSM
+	  fsm_for_input_processing();
+	  fsm_run(m_mode);
   }
   /* USER CODE END 3 */
 }
@@ -201,7 +216,8 @@ static void MX_GPIO_Init(void)
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOA, EN0_Pin|EN1_Pin|EN2_Pin|EN3_Pin
                           |SEG0_Pin|SEG1_Pin|SEG2_Pin|SEG3_Pin
-                          |SEG4_Pin|SEG5_Pin|SEG6_Pin, GPIO_PIN_RESET);
+                          |SEG4_Pin|SEG5_Pin|SEG6_Pin|TEST_Timer_Pin
+                          |TEST_Button_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOB, LED0_R_Pin|LED0_Y_Pin|LED0_G_Pin|LED1_R_Pin
@@ -210,15 +226,17 @@ static void MX_GPIO_Init(void)
   /*Configure GPIO pins : BUTTON_0_Pin BUTTON_1_Pin BUTTON_2_Pin */
   GPIO_InitStruct.Pin = BUTTON_0_Pin|BUTTON_1_Pin|BUTTON_2_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
   /*Configure GPIO pins : EN0_Pin EN1_Pin EN2_Pin EN3_Pin
                            SEG0_Pin SEG1_Pin SEG2_Pin SEG3_Pin
-                           SEG4_Pin SEG5_Pin SEG6_Pin */
+                           SEG4_Pin SEG5_Pin SEG6_Pin TEST_Timer_Pin
+                           TEST_Button_Pin */
   GPIO_InitStruct.Pin = EN0_Pin|EN1_Pin|EN2_Pin|EN3_Pin
                           |SEG0_Pin|SEG1_Pin|SEG2_Pin|SEG3_Pin
-                          |SEG4_Pin|SEG5_Pin|SEG6_Pin;
+                          |SEG4_Pin|SEG5_Pin|SEG6_Pin|TEST_Timer_Pin
+                          |TEST_Button_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;

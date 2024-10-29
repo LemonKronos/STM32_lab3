@@ -1,0 +1,4 @@
+display7seg.c:33:6:display7SEG	16	static
+display7seg.c:68:6:update7SEG	4	static
+display7seg.c:75:6:number7SEG	16	static
+display7seg.c:186:6:unit_test_7seg	8	static
