@@ -12,7 +12,7 @@
 
 uint8_t  currentTimerSlotWheel1 = 0, currentTimerSlotWheel2 = 0;
 
-void set_timer(uint16_t duration, uint8_t* timer_flag){
+void set_timer(uint32_t duration, uint8_t* timer_flag){
 	Timer* newTimer = (Timer*)malloc(sizeof(Timer));
 	if (newTimer == NULL) return;
 	newTimer->duration = duration;

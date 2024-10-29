@@ -9,6 +9,8 @@
 #include "global.h"
 #include "software_timer.h"
 
+extern traffic_way main_traffic, side_traffic;
+
 GPIO_TypeDef* ports[7] = {
     SEG0_GPIO_Port,
     SEG1_GPIO_Port,
@@ -66,10 +68,17 @@ void display7SEG(int index){
 };
 
 void update7SEG(){
-	led_buffer[0] = counter[0] / 10;
-	led_buffer[1] = counter[0] % 10;
-	led_buffer[2] = counter[1] / 10;
-	led_buffer[3] = counter[1] % 10;
+	led_buffer[0] = main_traffic.count_down / 10;
+	led_buffer[1] = main_traffic.count_down % 10;
+	led_buffer[2] = side_traffic.count_down / 10;
+	led_buffer[3] = side_traffic.count_down % 10;
+};
+
+void countDown7SEG(){
+	led_buffer[0] = led_buffer[0] - 1;
+	led_buffer[1] = led_buffer[1] - 1;
+	led_buffer[2] = led_buffer[2] - 1;
+	led_buffer[3] = led_buffer[3] - 1;
 };
 
 void number7SEG(int number){
@@ -196,7 +205,7 @@ void unit_test_7seg(){
 		set_timer(1000, &timer_flag[0]);
 	}
 	if(timer_flag[1] >= 1){
-		if(led_index >= 4) led_index = 0;
+		if(led_index >= MAX_LED) led_index = 0;
 		display7SEG(led_index++);
 		HAL_GPIO_TogglePin(TEST_Button_GPIO_Port, TEST_Button_Pin);
 

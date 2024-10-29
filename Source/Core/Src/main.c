@@ -102,6 +102,9 @@ int main(void)
   set_timer(1000, &timer_flag[0]);
   set_timer(1000, &timer_flag[1]);
   set_timer(1000, &timer_flag[2]);
+  set_timer(1000, &timer_flag[3]);
+  set_timer(1000, &timer_flag[4]);
+  set_timer(1000, &timer_flag[5]);
 
   while (1)
   {
@@ -111,7 +114,7 @@ int main(void)
 	  // UNIT TEST
 	  unit_test_software_timer();
 //	  unit_test_7seg();
-	  unit_test_button_read();
+//	  unit_test_button_read();
 
 	  // FSM
 	  fsm_for_input_processing();

@@ -9,7 +9,18 @@
 #define INC_GLOBAL_H_
 
 // software timer
-#define NUM_FLAG 4
+#define SEC 1000
+#define NUM_FLAG 8
+	/* FLAG NOTE
+	 * 0: PA5 TEST_Timer
+	 * 1: display 7seg led
+	 * 2: traffic light main road
+	 * 3: traffic light side road
+	 * 4: update 7seg led
+	 *
+	 *
+	 * */
+
 uint8_t timer_flag[NUM_FLAG];
 
 // 7 segment led
@@ -19,10 +30,18 @@ int led_index;
 
 // traffic light
 uint8_t counter[2];
-uint8_t red_main, yellow_main, green_main,
-		red_side, yellow_side, green_side;
-uint8_t current_red_main, current_yellow_main, current_green_main,
-		current_red_side, current_yellow_side, current_green_side;
+
+typedef enum whichWay{
+	main_way,
+	side_way
+}whichWay;
+
+typedef struct traffic_way{
+	whichWay  way;
+	uint8_t count_down;
+	uint8_t red, yellow, green;
+	uint8_t current_red, current_yellow, current_green;
+}traffic_way;
 
 // button
 #define NUMBER_OF_BUTTONS 3

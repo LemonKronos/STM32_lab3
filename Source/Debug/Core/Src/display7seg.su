@@ -1,4 +1,5 @@
-display7seg.c:33:6:display7SEG	16	static
-display7seg.c:68:6:update7SEG	4	static
-display7seg.c:75:6:number7SEG	16	static
-display7seg.c:186:6:unit_test_7seg	8	static
+display7seg.c:35:6:display7SEG	16	static
+display7seg.c:70:6:update7SEG	4	static
+display7seg.c:77:6:countDown7SEG	4	static
+display7seg.c:84:6:number7SEG	16	static
+display7seg.c:195:6:unit_test_7seg	8	static

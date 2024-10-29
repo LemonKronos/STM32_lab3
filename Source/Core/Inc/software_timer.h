@@ -27,7 +27,7 @@ typedef struct Timer{
 Timer* timerWheel1[WHEEL1];
 Timer* timerWheel2[WHEEL2];
 
-void set_timer(uint16_t duration, uint8_t* timer_flag);
+void set_timer(uint32_t duration, uint8_t* timer_flag);
 
 void timer_tick();
 

@@ -13,13 +13,14 @@
 
 extern uint8_t led_buffer[MAX_LED];
 extern int led_index;
-extern uint8_t counter[2];
 GPIO_TypeDef* port[7];
 uint16_t pin[7];
 
 void display7SEG(int index);
 
 void update7SEG();
+
+void countDown7SEG();
 
 void number7SEG(int number);
 
