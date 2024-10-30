@@ -7,6 +7,7 @@
 #include "main.h"
 #include "global.h"
 
+#define P_CLOCK
 #ifdef P_CLOCK
   int p_flag = 0;
   int p_dur  = 0;

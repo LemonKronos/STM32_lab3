@@ -8,6 +8,7 @@
 #ifndef INC_GLOBAL_H_
 #define INC_GLOBAL_H_
 
+#define P_CLOCK
 #ifdef P_CLOCK
   int p_flag;
   int p_dur;
@@ -27,7 +28,7 @@ void p_clockRun();
 	 *
 	 *
 	 * */
-
+uint8_t flagForTimerRun;
 uint8_t timer_flag[NUM_FLAG];
 
 // 7 segment led

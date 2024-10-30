@@ -61,11 +61,21 @@ void timer_tick(){
     currentTimerSlotWheel1 = (currentTimerSlotWheel1 + 1) % WHEEL1;
 }
 
+void timer_run_set_flag(){
+	flagForTimerRun = 1;
+}
+
+void timer_run(){
+	if(flagForTimerRun == 1){
+		flagForTimerRun = 0;
+		timer_tick();
+	}
+}
 
 void HAL_TIM_PeriodElapsedCallback ( TIM_HandleTypeDef * htim ){
 	if( htim->Instance == TIM2 ){
-		timer_tick();
-		button_reading();
+		timer_run_set_flag();
+//		button_reading();
 #ifdef P_CLOCK
 		p_clockRun();
 #endif

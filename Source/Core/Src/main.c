@@ -95,6 +95,8 @@ int main(void)
   MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
   HAL_TIM_Base_Start_IT(&htim2);
+
+#define P_CLOCK
 #ifdef P_CLOCK
   p_clockSet(1000);
 #endif
@@ -114,6 +116,8 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+	  // TIMER RUN
+	  timer_run();
 	  // UNIT TEST
 #ifdef P_CLOCK
 	  if(p_flag == 1){
@@ -123,11 +127,11 @@ int main(void)
 #endif
 	  unit_test_software_timer();
 //	  unit_test_7seg();
-	  unit_test_button_read();
+//	  unit_test_button_read();
 
 	  // FSM
-	  fsm_for_input_processing();
-	  fsm_run(m_mode);
+//	  fsm_for_input_processing();
+//	  fsm_run(m_mode);
   }
   /* USER CODE END 3 */
 }
