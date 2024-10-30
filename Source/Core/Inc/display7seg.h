@@ -12,17 +12,17 @@
 #include "global.h"
 
 extern uint8_t led_buffer[MAX_LED];
-extern int led_index;
+extern uint8_t led_index;
 GPIO_TypeDef* port[7];
 uint16_t pin[7];
 
-void display7SEG(int index);
+void display7SEG(uint8_t index);
 
 void update7SEG();
 
 void countDown7SEG();
 
-void number7SEG(int number);
+void number7SEG(uint8_t number);
 
 void unit_test_7seg();
 

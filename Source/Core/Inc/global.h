@@ -8,6 +8,13 @@
 #ifndef INC_GLOBAL_H_
 #define INC_GLOBAL_H_
 
+#ifdef P_CLOCK
+  int p_flag;
+  int p_dur;
+  void p_clockSet(int dur);
+void p_clockRun();
+#endif
+
 // software timer
 #define SEC 1000
 #define NUM_FLAG 8
@@ -26,7 +33,7 @@ uint8_t timer_flag[NUM_FLAG];
 // 7 segment led
 #define MAX_LED 4
 uint8_t led_buffer[MAX_LED];
-int led_index;
+uint8_t led_index;
 
 // traffic light
 uint8_t counter[2];

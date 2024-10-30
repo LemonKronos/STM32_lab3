@@ -95,6 +95,9 @@ int main(void)
   MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
   HAL_TIM_Base_Start_IT(&htim2);
+#ifdef P_CLOCK
+  p_clockSet(1000);
+#endif
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -112,9 +115,15 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
 	  // UNIT TEST
+#ifdef P_CLOCK
+	  if(p_flag == 1){
+		  HAL_GPIO_TogglePin(TEST_Button_GPIO_Port, TEST_Button_Pin);
+		  p_clockSet(1000);
+	  }
+#endif
 	  unit_test_software_timer();
 //	  unit_test_7seg();
-//	  unit_test_button_read();
+	  unit_test_button_read();
 
 	  // FSM
 	  fsm_for_input_processing();
