@@ -13,6 +13,7 @@
 uint8_t  currentTimerSlotWheel1 = 0, currentTimerSlotWheel2 = 0;
 
 void set_timer(uint32_t duration, uint8_t* timer_flag){
+	*timer_flag = 0;
 	Timer* newTimer = (Timer*)malloc(sizeof(Timer));
 	if (newTimer == NULL) return;
 	newTimer->duration = duration;
@@ -71,7 +72,6 @@ void HAL_TIM_PeriodElapsedCallback ( TIM_HandleTypeDef * htim ){
 void unit_test_software_timer(){
 	if(timer_flag[0] >= 1){
 		HAL_GPIO_TogglePin(TEST_Timer_GPIO_Port, TEST_Timer_Pin);
-		timer_flag[0] = 0;
 		set_timer(1000, &timer_flag[0]);
 	}
 //	if(timer_flag[1] >= 1){

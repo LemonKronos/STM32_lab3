@@ -32,7 +32,7 @@ uint16_t pins[7] = {
 };
 
 
-void display7SEG(int index){
+void display7SEG(uint8_t index){
 	switch(index){
 	case 0://SEG_0
 		number7SEG(led_buffer[0]);
@@ -69,21 +69,23 @@ void display7SEG(int index){
 
 void update7SEG(){
 	led_buffer[0] = main_traffic.count_down / 10;
+	if(led_buffer[0] == 0) led_buffer[0] = 10;
 	led_buffer[1] = main_traffic.count_down % 10;
+
 	led_buffer[2] = side_traffic.count_down / 10;
+	if(led_buffer[2] == 0) led_buffer[2] = 10;
 	led_buffer[3] = side_traffic.count_down % 10;
 };
 
 void countDown7SEG(){
-	led_buffer[0] = led_buffer[0] - 1;
-	led_buffer[1] = led_buffer[1] - 1;
-	led_buffer[2] = led_buffer[2] - 1;
-	led_buffer[3] = led_buffer[3] - 1;
+	main_traffic.count_down--;
+	side_traffic.count_down--;
+	update7SEG();
 };
 
-void number7SEG(int number){
+void number7SEG(uint8_t number){
 	switch(number) {
-	    case -1: // ALL OFF
+	    case 10: // ALL OFF
 	        HAL_GPIO_WritePin(ports[0], pins[0], SET);
 	        HAL_GPIO_WritePin(ports[1], pins[1], SET);
 	        HAL_GPIO_WritePin(ports[2], pins[2], SET);

@@ -26,7 +26,8 @@ uint8_t timer_flag[NUM_FLAG];
 // 7 segment led
 #define MAX_LED 4
 uint8_t led_buffer[MAX_LED];
-int led_index;
+uint8_t led_index;
+uint8_t countet_buffer[2];
 
 // traffic light
 uint8_t counter[2];
@@ -40,7 +41,6 @@ typedef struct traffic_way{
 	whichWay  way;
 	uint8_t count_down;
 	uint8_t red, yellow, green;
-	uint8_t current_red, current_yellow, current_green;
 }traffic_way;
 
 // button
