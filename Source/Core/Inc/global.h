@@ -28,17 +28,16 @@ void p_clockRun();
 	 *
 	 *
 	 * */
-uint8_t flagForTimerRun;
 uint8_t timer_flag[NUM_FLAG];
+uint8_t flagInterrupt;
 
 // 7 segment led
 #define MAX_LED 4
 uint8_t led_buffer[MAX_LED];
 uint8_t led_index;
-
-// traffic light
 uint8_t counter[2];
 
+// traffic light
 typedef enum whichWay{
 	main_way,
 	side_way

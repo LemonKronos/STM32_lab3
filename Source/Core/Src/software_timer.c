@@ -61,24 +61,20 @@ void timer_tick(){
     currentTimerSlotWheel1 = (currentTimerSlotWheel1 + 1) % WHEEL1;
 }
 
-void timer_run_set_flag(){
-	flagForTimerRun = 1;
-}
-
 void timer_run(){
-	if(flagForTimerRun == 1){
-		flagForTimerRun = 0;
+	if(flagInterrupt == 1){
+		flagInterrupt = 0;
 		timer_tick();
+		button_reading();
+#ifdef P_CLOCK
+		p_clockRun();
+#endif
 	}
 }
 
 void HAL_TIM_PeriodElapsedCallback ( TIM_HandleTypeDef * htim ){
 	if( htim->Instance == TIM2 ){
-		timer_run_set_flag();
-//		button_reading();
-#ifdef P_CLOCK
-		p_clockRun();
-#endif
+		flagInterrupt = 1;
 	}
 }
 
@@ -89,8 +85,11 @@ void unit_test_software_timer(){
 	}
 //	if(timer_flag[1] >= 1){
 //		HAL_GPIO_TogglePin(TEST_Button_GPIO_Port, TEST_Button_Pin);
-//		timer_flag[1] = 0;
-//		set_timer(20, &timer_flag[1]);
+//		set_timer(1000, &timer_flag[1]);
 //	}
+//	if(timer_flag[2] >= 1){
+//			HAL_GPIO_TogglePin(TEST_GPIO_Port, TEST_Pin);
+//			set_timer(1000, &timer_flag[2]);
+//		}
 }
 

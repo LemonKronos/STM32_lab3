@@ -20,7 +20,7 @@ typedef enum traffic_mode{
 }traffic_mode;
 traffic_mode t_mode_main, t_mode_side;
 
-void fsm_traffic(traffic_mode* mode, traffic_way* Tway, uint8_t* timer_flag);
+void fsm_traffic(traffic_mode* mode, traffic_way* Tway, uint8_t* timer_flag, uint8_t index);
 void lit_red(whichWay way);
 void lit_yellow(whichWay way);
 void lit_green(whichWay way);

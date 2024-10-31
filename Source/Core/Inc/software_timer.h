@@ -31,8 +31,6 @@ void set_timer(uint32_t duration, uint8_t* timer_flag);
 
 void timer_tick();
 
-void timer_run_set_flag();
-
 void timer_run();
 
 void HAL_TIM_PeriodElapsedCallback ( TIM_HandleTypeDef * htim );

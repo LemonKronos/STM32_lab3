@@ -15,30 +15,33 @@
 traffic_mode	t_mode_main = RED,
 				t_mode_side = GREEN;
 
-void fsm_traffic(traffic_mode* mode, traffic_way* Tway, uint8_t* timer_flag){
+void fsm_traffic(traffic_mode* mode, traffic_way* Tway, uint8_t* timer_flag, uint8_t index){
 	switch(*mode){
 	case RED:
 		if(*timer_flag == 1){
-			*mode = GREEN;
 			lit_green(Tway->way);
 			set_timer(Tway->green *SEC, timer_flag);
-			Tway->count_down = Tway->green + 1;
+			counter[index] = Tway->green + 1;
+			*mode = GREEN;
+			update7SEG(index);
 		}
 		break;
 	case YELLOW:
 		if(*timer_flag == 1){
-			*mode = RED;
 			lit_red(Tway->way);
 			set_timer(Tway->red *SEC, timer_flag);
-			Tway->count_down = Tway->red + 1;
+			counter[index] = Tway->red + 1;
+			*mode = RED;
+			update7SEG(index);
 		}
 		break;
 	case GREEN:
 		if(*timer_flag == 1){
-			*mode = YELLOW;
 			lit_yellow(Tway->way);
 			set_timer(Tway->yellow *SEC, timer_flag);
-			Tway->count_down = Tway->yellow + 1;
+			counter[index] = Tway->yellow + 1;
+			*mode = YELLOW;
+			update7SEG(index);
 		}
 		break;
 	default:

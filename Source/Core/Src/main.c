@@ -96,7 +96,7 @@ int main(void)
   /* USER CODE BEGIN 2 */
   HAL_TIM_Base_Start_IT(&htim2);
 
-#define P_CLOCK
+//#define P_CLOCK
 #ifdef P_CLOCK
   p_clockSet(1000);
 #endif
@@ -110,28 +110,32 @@ int main(void)
   set_timer(1000, &timer_flag[3]);
   set_timer(1000, &timer_flag[4]);
   set_timer(1000, &timer_flag[5]);
+  set_timer(1000, &timer_flag[6]);
+  set_timer(1000, &timer_flag[7]);
 
   while (1)
   {
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	  // TIMER RUN
 	  timer_run();
 	  // UNIT TEST
 #ifdef P_CLOCK
 	  if(p_flag == 1){
+		  HAL_GPIO_TogglePin(TEST_Timer_GPIO_Port, TEST_Timer_Pin);
 		  HAL_GPIO_TogglePin(TEST_Button_GPIO_Port, TEST_Button_Pin);
+		  HAL_GPIO_TogglePin(TEST_GPIO_Port, TEST_Pin);
 		  p_clockSet(1000);
 	  }
 #endif
+
 	  unit_test_software_timer();
 //	  unit_test_7seg();
-//	  unit_test_button_read();
+	  unit_test_button_read();
 
 	  // FSM
-//	  fsm_for_input_processing();
-//	  fsm_run(m_mode);
+	  fsm_for_input_processing();
+	  fsm_run(m_mode);
   }
   /* USER CODE END 3 */
 }
@@ -236,8 +240,8 @@ static void MX_GPIO_Init(void)
                           |TEST_Button_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOB, LED0_R_Pin|LED0_Y_Pin|LED0_G_Pin|LED1_R_Pin
-                          |LED1_Y_Pin|LED1_G_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOB, LED0_R_Pin|LED0_Y_Pin|LED0_G_Pin|TEST_Pin
+                          |LED1_R_Pin|LED1_Y_Pin|LED1_G_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pins : BUTTON_0_Pin BUTTON_1_Pin BUTTON_2_Pin */
   GPIO_InitStruct.Pin = BUTTON_0_Pin|BUTTON_1_Pin|BUTTON_2_Pin;
@@ -258,10 +262,10 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : LED0_R_Pin LED0_Y_Pin LED0_G_Pin LED1_R_Pin
-                           LED1_Y_Pin LED1_G_Pin */
-  GPIO_InitStruct.Pin = LED0_R_Pin|LED0_Y_Pin|LED0_G_Pin|LED1_R_Pin
-                          |LED1_Y_Pin|LED1_G_Pin;
+  /*Configure GPIO pins : LED0_R_Pin LED0_Y_Pin LED0_G_Pin TEST_Pin
+                           LED1_R_Pin LED1_Y_Pin LED1_G_Pin */
+  GPIO_InitStruct.Pin = LED0_R_Pin|LED0_Y_Pin|LED0_G_Pin|TEST_Pin
+                          |LED1_R_Pin|LED1_Y_Pin|LED1_G_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
