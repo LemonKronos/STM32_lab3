@@ -26,7 +26,8 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
  ../Core/Inc/software_timer.h ../Core/Inc/main.h \
  ../Core/Inc/input_processing.h ../Core/Inc/fsm_run.h \
  ../Core/Inc/global.h ../Core/Inc/traffic_light.h \
- ../Core/Inc/input_reading.h ../Core/Inc/global.h
+ ../Core/Inc/input_reading.h ../Core/Inc/global.h \
+ ../Core/Inc/display7SEG.h
 
 ../Core/Inc/main.h:
 
@@ -93,3 +94,5 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
 ../Core/Inc/input_reading.h:
 
 ../Core/Inc/global.h:
+
+../Core/Inc/display7SEG.h:

@@ -21,6 +21,7 @@
 
 //for unit test
 #ifdef UNIT_TEST
+#include "display7seg.h"
 uint8_t test_button = 0;
 #endif
 //buffer after debouncing
@@ -57,41 +58,12 @@ void button_reading() {
 
         if (debounceButtonBuffer1[i] == debounceButtonBuffer2[i])
             buttonBuffer[i] = debounceButtonBuffer1[i];
-
         //UPDATE COUNTER
-        if(buttonBuffer[i] == BUTTON_IS_PRESSED){
-        	counterForButtonRelease[i] = 0;
-        	if(counterForButtonHold[i] < HOLD_TIME) counterForButtonHold[i]++;
-        }
-        if(buttonBuffer[i] == BUTTON_IS_RELEASED){
-        	counterForButtonHold[i] = 0;
-        	if(counterForButtonRelease[i] < RELEASE_TIME) counterForButtonRelease[i]++;
-        }
-        //RECOGNIZE
-        if(buttonBuffer[i] == BUTTON_IS_PRESSED){
-        	if(counterForButtonRelease[i] >= RELEASE_TIME){//Press or Hold
-        		if(counterForButtonHold[i] < HOLD_TIME){//Press
-        			flagForButtonPress[i] = 1;
-        		}
-        		else{//Hold
-        			flagForButtonHold[i] = 1;
-        		}
-        	}
-        	else{//Double Tap or Tap Hold
-        		if(counterForButtonHold[i] < HOLD_TIME){//Double Tap
-        			flagForButtonDoubleTap[i] = 1;
-        		}
-        		else{//Tap Hold
-        			flagForButtonTapHold[i] = 1;
-        		}
-        	}
-        }
-        else{//button idle
-        	flagForButtonPress[i] = 0;
-        	flagForButtonHold[i] = 0;
-        	flagForButtonDoubleTap[i] = 0;
-        	flagForButtonTapHold[i] = 0;
-        }
+
+        //REGCONIZE
+
+
+
 #ifdef UNIT_TEST
         if(i == 0) test_button = 0;
         test_button = test_button | !buttonBuffer[i];
@@ -117,7 +89,7 @@ unsigned char is_button_double_tap(unsigned char index) {
     return (flagForButtonDoubleTap[index] == 1);
 }
 
-unsigned char is_button_tap_holc(unsigned char index) {
+unsigned char is_button_tap_hold(unsigned char index) {
     if (index >= NUMBER_OF_BUTTONS)
         return 0;
     return (flagForButtonTapHold[index] == 1);
@@ -127,5 +99,13 @@ unsigned char is_button_tap_holc(unsigned char index) {
 void unit_test_button_read(){
 	if(test_button == 1) HAL_GPIO_WritePin(TEST_Button_GPIO_Port, TEST_Button_Pin, RESET);
 	if(test_button == 0) HAL_GPIO_WritePin(TEST_Button_GPIO_Port, TEST_Button_Pin, SET);
+}
+
+void unit_test_button_read_adv(unsigned char index){
+	if(is_button_press(index)) display7SEG(0); else HAL_GPIO_WritePin(EN0_GPIO_Port, EN0_Pin, RESET);
+	if(is_button_hold(index)) display7SEG(1); else HAL_GPIO_WritePin(EN1_GPIO_Port, EN1_Pin, RESET);
+	if(is_button_double_tap(index)) display7SEG(2); else HAL_GPIO_WritePin(EN2_GPIO_Port, EN2_Pin, RESET);
+	if(is_button_tap_hold(index)) display7SEG(3); else HAL_GPIO_WritePin(EN3_GPIO_Port, EN3_Pin, RESET);
+
 }
 #endif

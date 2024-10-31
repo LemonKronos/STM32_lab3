@@ -24,7 +24,8 @@ Core/Src/input_reading.o: ../Core/Src/input_reading.c \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h \
- ../Core/Inc/main.h ../Core/Inc/global.h
+ ../Core/Inc/main.h ../Core/Inc/global.h ../Core/Inc/display7seg.h \
+ ../Core/Inc/global.h
 
 ../Core/Inc/input_reading.h:
 
@@ -79,5 +80,9 @@ Core/Src/input_reading.o: ../Core/Src/input_reading.c \
 ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h:
 
 ../Core/Inc/main.h:
+
+../Core/Inc/global.h:
+
+../Core/Inc/display7seg.h:
 
 ../Core/Inc/global.h:

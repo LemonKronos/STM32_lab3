@@ -35,7 +35,6 @@ uint8_t flagInterrupt;
 #define MAX_LED 4
 uint8_t led_buffer[MAX_LED];
 uint8_t led_index;
-uint8_t counter[2];
 
 // traffic light
 typedef enum whichWay{
@@ -47,7 +46,6 @@ typedef struct traffic_way{
 	whichWay  way;
 	uint8_t count_down;
 	uint8_t red, yellow, green;
-	uint8_t current_red, current_yellow, current_green;
 }traffic_way;
 
 // button

@@ -7,37 +7,39 @@
 #include "main.h"
 #include "input_reading.h"
 
-enum ButtonState {
-    BUTTON_RELEASED,
-    BUTTON_PRESSED,
-    BUTTON_PRESSED_MORE_THAN_1_SECOND
-};
+typedef enum ButtonState {
+    BUTTON_IDLE,
+    BUTTON_PRESS,
+    BUTTON_HOLD,
+	BUTTON_DTAP,
+	BUTTON_THOLD
+}ButtonState;
 
-enum ButtonState buttonState = BUTTON_RELEASED;
+ButtonState buttonState = BUTTON_IDLE;
 
 void fsm_for_input_processing(void) {
     switch (buttonState) {
-        case BUTTON_RELEASED:
+        case BUTTON_IDLE:
             if (is_button_press(0)) {
-                buttonState = BUTTON_PRESSED;
                 // TODO: Increase the value of PORT A by one unit
             }
             break;
-        case BUTTON_PRESSED:
-            if (!is_button_press(0)) {
-                buttonState = BUTTON_RELEASED;
-            } else {
-                if (is_button_hold(0)) {
-                    buttonState = BUTTON_PRESSED_MORE_THAN_1_SECOND;
-                }
-            }
+        case BUTTON_PRESS:
+
             break;
-        case BUTTON_PRESSED_MORE_THAN_1_SECOND:
-            if (!is_button_press(0)) {
-                buttonState = BUTTON_RELEASED;
-            }
+        case BUTTON_HOLD:
+
             // TODO: Add further functionality here
             break;
+        case BUTTON_DTAP:
+
+        	break;
+        case BUTTON_THOLD:
+
+        	break;
+        default:
+
+        	break;
     }
 }
 

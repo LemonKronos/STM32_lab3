@@ -69,19 +69,20 @@ void display7SEG(uint8_t index){
 
 void update7SEG(uint8_t index){
 	if(index == 0){
-		led_buffer[0] = counter[index] / 10;
+		led_buffer[0] = main_traffic.count_down / 10;
 		if(led_buffer[0] == 0) led_buffer[0] = 10;
-		led_buffer[1] = counter[index] % 10;
+		led_buffer[1] = main_traffic.count_down % 10;
 	}
 	if(index == 1){
-		led_buffer[2] = counter[index] / 10;
+		led_buffer[2] = side_traffic.count_down / 10;
 		if(led_buffer[2] == 0) led_buffer[2] = 10;
-		led_buffer[3] = counter[index] % 10;
+		led_buffer[3] = side_traffic.count_down % 10;
 	}
 };
 
 void countDown7SEG(uint8_t index){
-	counter[index]--;
+	if(index == 0) main_traffic.count_down--;
+	if(index == 1) side_traffic.count_down--;
 	update7SEG(index);
 };
 
@@ -197,16 +198,14 @@ void number7SEG(uint8_t number){
 };
 
 void unit_test_7seg(){
-	if(timer_flag[0] >= 1){
+	if(timer_flag[3] >= 1){
 		if(counter[0] > 0) counter[0]--;
 		else counter[0] = 99;
 		if(counter[1] > 0) counter[1]--;
 		else counter[1] = 99;
 		update7SEG(0);
 		update7SEG(1);
-		HAL_GPIO_TogglePin(TEST_Timer_GPIO_Port, TEST_Timer_Pin);
-
-		set_timer(1000, &timer_flag[0]);
+		set_timer(1000, &timer_flag[3]);
 	}
 	if(timer_flag[1] >= 1){
 		if(led_index >= MAX_LED) led_index = 0;

@@ -28,6 +28,7 @@
 #include "traffic_light.h"
 #include "input_reading.h"
 #include "global.h"
+#include "display7SEG.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -96,7 +97,7 @@ int main(void)
   /* USER CODE BEGIN 2 */
   HAL_TIM_Base_Start_IT(&htim2);
 
-//#define P_CLOCK
+#define P_CLOCK
 #ifdef P_CLOCK
   p_clockSet(1000);
 #endif
@@ -131,11 +132,12 @@ int main(void)
 
 	  unit_test_software_timer();
 //	  unit_test_7seg();
-	  unit_test_button_read();
+//	  unit_test_button_read();
+//	  unit_test_button_read_adv(0);
 
 	  // FSM
-	  fsm_for_input_processing();
-	  fsm_run(m_mode);
+//	  fsm_for_input_processing();
+//	  fsm_run(m_mode);
   }
   /* USER CODE END 3 */
 }

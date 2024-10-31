@@ -21,7 +21,7 @@ void fsm_traffic(traffic_mode* mode, traffic_way* Tway, uint8_t* timer_flag, uin
 		if(*timer_flag == 1){
 			lit_green(Tway->way);
 			set_timer(Tway->green *SEC, timer_flag);
-			counter[index] = Tway->green + 1;
+			Tway->count_down = Tway->green + 1;
 			*mode = GREEN;
 			update7SEG(index);
 		}
@@ -30,7 +30,7 @@ void fsm_traffic(traffic_mode* mode, traffic_way* Tway, uint8_t* timer_flag, uin
 		if(*timer_flag == 1){
 			lit_red(Tway->way);
 			set_timer(Tway->red *SEC, timer_flag);
-			counter[index] = Tway->red + 1;
+			Tway->count_down = Tway->red + 1;
 			*mode = RED;
 			update7SEG(index);
 		}
@@ -39,7 +39,7 @@ void fsm_traffic(traffic_mode* mode, traffic_way* Tway, uint8_t* timer_flag, uin
 		if(*timer_flag == 1){
 			lit_yellow(Tway->way);
 			set_timer(Tway->yellow *SEC, timer_flag);
-			counter[index] = Tway->yellow + 1;
+			Tway->count_down = Tway->yellow + 1;
 			*mode = YELLOW;
 			update7SEG(index);
 		}
