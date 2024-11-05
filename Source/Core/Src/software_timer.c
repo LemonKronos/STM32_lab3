@@ -31,7 +31,7 @@ void set_timer(uint32_t duration, uint8_t* timer_flag){
 }
 
 void timer_tick(){
-    if (currentTimerSlotWheel1 == 0){
+    if (currentTimerSlotWheel1 <= 0){
         Timer* processTimer = timerWheel2[currentTimerSlotWheel2];
         while (processTimer != NULL){
             uint8_t newTimerSlot = (processTimer->duration / TIMER_CYCLE) % WHEEL1;
@@ -47,7 +47,6 @@ void timer_tick(){
             free(temp);
         }
         timerWheel2[currentTimerSlotWheel2] = NULL;
-        currentTimerSlotWheel2 = (currentTimerSlotWheel2 + 1) % WHEEL2;
     }
 
     Timer* processTimer = timerWheel1[currentTimerSlotWheel1];
@@ -59,8 +58,8 @@ void timer_tick(){
     }
     timerWheel1[currentTimerSlotWheel1] = NULL;
     currentTimerSlotWheel1 = (currentTimerSlotWheel1 + 1) % WHEEL1;
+    if(currentTimerSlotWheel1 >= 99) currentTimerSlotWheel2 = (currentTimerSlotWheel2 + 1) % WHEEL2;
 }
-
 
 void HAL_TIM_PeriodElapsedCallback ( TIM_HandleTypeDef * htim ){
 	if( htim->Instance == TIM2 ){
@@ -77,10 +76,5 @@ void unit_test_software_timer(){
 		HAL_GPIO_TogglePin(TEST_Timer_GPIO_Port, TEST_Timer_Pin);
 		set_timer(1000, &timer_flag[0]);
 	}
-//	if(timer_flag[1] >= 1){
-//		HAL_GPIO_TogglePin(TEST_Button_GPIO_Port, TEST_Button_Pin);
-//		timer_flag[1] = 0;
-//		set_timer(20, &timer_flag[1]);
-//	}
 }
 

@@ -22,7 +22,6 @@
 #endif
 
 // software timer
-uint8_t timer_flag[NUM_FLAG]= {0, 0, 0, 0};
 
 // 7 segment
 uint8_t led_index = 0;

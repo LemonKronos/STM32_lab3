@@ -10,8 +10,6 @@
 #include "software_timer.h"
 #include "display7seg.h"
 
-//#define UNIT_TEST
-
 traffic_mode	t_mode_main = RED,
 				t_mode_side = GREEN;
 
@@ -85,9 +83,3 @@ void lit_green(whichWay way){
 		HAL_GPIO_WritePin(LED1_Y_GPIO_Port, LED1_Y_Pin, SET);
 	}
 }
-
-#ifdef UNIT_TEST
-void unit_test_traffic(){
-
-}
-#endif

@@ -8,6 +8,7 @@
 #ifndef INC_GLOBAL_H_
 #define INC_GLOBAL_H_
 
+#define P_CLOCK
 #ifdef P_CLOCK
   int p_flag;
   int p_dur;
@@ -17,15 +18,14 @@ void p_clockRun();
 
 // software timer
 #define SEC 1000
-#define NUM_FLAG 8
+#define NUM_FLAG 5
 	/* FLAG NOTE
-	 * 0: PA5 TEST_Timer
-	 * 1: display 7seg led
-	 * 2: traffic light main road
-	 * 3: traffic light side road
-	 * 4: update 7seg led
-	 *
-	 *
+	 *0 blinky led
+	 *1 main way
+	 *2 side way
+	 *3 1s count down for 7seg led
+	 *4 refresh for 7seg led
+	 *5
 	 * */
 
 uint8_t timer_flag[NUM_FLAG];

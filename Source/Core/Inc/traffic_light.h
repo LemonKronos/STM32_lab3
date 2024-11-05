@@ -11,8 +11,6 @@
 #include "main.h"
 #include "global.h"
 
-//#define UNIT_TEST
-
 typedef enum traffic_mode{
 	RED,
 	YELLOW,
@@ -24,9 +22,5 @@ void fsm_traffic(traffic_mode* mode, traffic_way* Tway, uint8_t* timer_flag);
 void lit_red(whichWay way);
 void lit_yellow(whichWay way);
 void lit_green(whichWay way);
-
-#ifdef UNIT_TEST
-void unit_test_traffic();
-#endif
 
 #endif /* INC_TRAFFIC_LIGHT_H_ */
