@@ -104,6 +104,7 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   HAL_GPIO_WritePin(timerP_GPIO_Port, timerP_Pin, SET);
   HAL_GPIO_WritePin(TEST_Timer_GPIO_Port, TEST_Timer_Pin, SET);
+  HAL_GPIO_WritePin(TEST_GPIO_Port, TEST_Pin, SET);
   set_timer(1000, &timer_flag[0]);
   set_timer(1000, &timer_flag[1]);
   set_timer(1000, &timer_flag[2]);
@@ -125,11 +126,12 @@ int main(void)
 #endif
 	  unit_test_software_timer();
 //	  unit_test_7seg();
+	  unit_test_button_press();
 	  unit_test_button_read();
 
 	  // FSM
-	  fsm_for_input_processing();
-	  fsm_run(m_mode);
+//	  fsm_for_input_processing();
+//	  fsm_run(m_mode);
   }
   /* USER CODE END 3 */
 }
@@ -235,7 +237,7 @@ static void MX_GPIO_Init(void)
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOB, LED0_R_Pin|LED0_Y_Pin|LED0_G_Pin|LED1_R_Pin
-                          |LED1_Y_Pin|LED1_G_Pin|timerP_Pin, GPIO_PIN_RESET);
+                          |LED1_Y_Pin|LED1_G_Pin|timerP_Pin|TEST_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pins : BUTTON_0_Pin BUTTON_1_Pin BUTTON_2_Pin */
   GPIO_InitStruct.Pin = BUTTON_0_Pin|BUTTON_1_Pin|BUTTON_2_Pin;
@@ -257,9 +259,9 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
   /*Configure GPIO pins : LED0_R_Pin LED0_Y_Pin LED0_G_Pin LED1_R_Pin
-                           LED1_Y_Pin LED1_G_Pin timerP_Pin */
+                           LED1_Y_Pin LED1_G_Pin timerP_Pin TEST_Pin */
   GPIO_InitStruct.Pin = LED0_R_Pin|LED0_Y_Pin|LED0_G_Pin|LED1_R_Pin
-                          |LED1_Y_Pin|LED1_G_Pin|timerP_Pin;
+                          |LED1_Y_Pin|LED1_G_Pin|timerP_Pin|TEST_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;

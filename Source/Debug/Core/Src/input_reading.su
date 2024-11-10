@@ -1,7 +1,8 @@
-input_reading.c:35:15:button_pin_read	16	static
-input_reading.c:52:6:button_reading	24	static
-input_reading.c:102:15:is_button_press	16	static
-input_reading.c:108:15:is_button_hold	16	static
-input_reading.c:114:15:is_button_double_tap	16	static
-input_reading.c:120:15:is_button_tap_holc	16	static
-input_reading.c:127:6:unit_test_button_read	8	static
+input_reading.c:37:15:button_pin_read	16	static
+input_reading.c:54:6:button_reading	24	static
+input_reading.c:120:15:is_button_press	16	static
+input_reading.c:126:15:is_button_hold	16	static
+input_reading.c:132:15:is_button_double_tap	16	static
+input_reading.c:138:15:is_button_tap_hold	16	static
+input_reading.c:144:6:unit_test_button_press	8	static
+input_reading.c:149:6:unit_test_button_read	8	static

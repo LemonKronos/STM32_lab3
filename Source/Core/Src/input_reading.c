@@ -8,31 +8,33 @@
 #include "main.h"
 #include "global.h"
 
-#define UNIT_TEST
-
 // We aim to work with more than one button
 // Timer interrupt duration is 10ms, so to pass 1 second,
 // we need to jump to the interrupt service routine 100 times
 #define HOLD_TIME 100
-#define RELEASE_TIME 8
+#define RELEASE_TIME 30
 
 #define BUTTON_IS_PRESSED GPIO_PIN_RESET
 #define BUTTON_IS_RELEASED GPIO_PIN_SET
 
 //for unit test
 #ifdef UNIT_TEST
+#include "display7seg.h"
+#include "software_timer.h"
 uint8_t test_button = 0;
 #endif
 //buffer after debouncing
-static GPIO_PinState buttonBuffer[NUMBER_OF_BUTTONS];
+static GPIO_PinState buttonBuffer[NUMBER_OF_BUTTONS] = { [0 ... (NUMBER_OF_BUTTONS - 1)] = BUTTON_IS_RELEASED};
 //buffer for debouncing
 static GPIO_PinState debounceButtonBuffer1[NUMBER_OF_BUTTONS];
 static GPIO_PinState debounceButtonBuffer2[NUMBER_OF_BUTTONS];
 //counter
 static uint16_t counterForButtonHold[NUMBER_OF_BUTTONS];
 static uint16_t counterForButtonRelease[NUMBER_OF_BUTTONS];
+//check initial press
+static uint8_t initial_press[NUMBER_OF_BUTTONS];
 
-GPIO_PinState button_pin_read(uint8_t index){//this is no good
+GPIO_PinState button_pin_read(uint8_t index){
 	switch(index){
 	case 0:
 		return HAL_GPIO_ReadPin(BUTTON_0_GPIO_Port, BUTTON_0_Pin);
@@ -49,8 +51,8 @@ GPIO_PinState button_pin_read(uint8_t index){//this is no good
 	return SET;
 }
 
-void button_reading() {
-    for (uint8_t i = 0; i < NUMBER_OF_BUTTONS; i++) {
+void button_reading(){
+    for (uint8_t i = 0; i < NUMBER_OF_BUTTONS; i++){
     	//DEBOUNCE
         debounceButtonBuffer2[i] = debounceButtonBuffer1[i];
         debounceButtonBuffer1[i] = button_pin_read(i);
@@ -58,40 +60,56 @@ void button_reading() {
         if (debounceButtonBuffer1[i] == debounceButtonBuffer2[i])
             buttonBuffer[i] = debounceButtonBuffer1[i];
 
-        //UPDATE COUNTER
-        if(buttonBuffer[i] == BUTTON_IS_PRESSED){
+        // UPDATE COUNTER
+        if(buttonBuffer[i] == BUTTON_IS_RELEASED){
+        	if(initial_press[i] == 5) initial_press[i] = 0;
+        	if(initial_press[i] == 6) initial_press[i] = 0;
+        	if(initial_press[i] == 1) initial_press[i] = 2;
+        	if(initial_press[i] == 3) initial_press[i] = 4;
+
+           	counterForButtonHold[i] = 0;
+           	if(counterForButtonRelease[i] < RELEASE_TIME) counterForButtonRelease[i]++;
+         }
+        else if(buttonBuffer[i] == BUTTON_IS_PRESSED){
+        	if(initial_press[i] == 0) initial_press[i] = 1;
+        	if(initial_press[i] == 2) initial_press[i] = 3;
+
         	counterForButtonRelease[i] = 0;
         	if(counterForButtonHold[i] < HOLD_TIME) counterForButtonHold[i]++;
         }
-        if(buttonBuffer[i] == BUTTON_IS_RELEASED){
-        	counterForButtonHold[i] = 0;
-        	if(counterForButtonRelease[i] < RELEASE_TIME) counterForButtonRelease[i]++;
-        }
-        //RECOGNIZE
-        if(buttonBuffer[i] == BUTTON_IS_PRESSED){
-        	if(counterForButtonRelease[i] >= RELEASE_TIME){//Press or Hold
-        		if(counterForButtonHold[i] < HOLD_TIME){//Press
-        			flagForButtonPress[i] = 1;
-        		}
-        		else{//Hold
-        			flagForButtonHold[i] = 1;
-        		}
-        	}
-        	else{//Double Tap or Tap Hold
-        		if(counterForButtonHold[i] < HOLD_TIME){//Double Tap
-        			flagForButtonDoubleTap[i] = 1;
-        		}
-        		else{//Tap Hold
-        			flagForButtonTapHold[i] = 1;
-        		}
-        	}
-        }
-        else{//button idle
+
+        //REGCONIZE
+        if(initial_press[i] == 0){	// IDLE
         	flagForButtonPress[i] = 0;
         	flagForButtonHold[i] = 0;
         	flagForButtonDoubleTap[i] = 0;
         	flagForButtonTapHold[i] = 0;
         }
+        if(initial_press[i] == 1 || initial_press[i] == 5){	// HOLD
+        	if(counterForButtonHold[i] >= HOLD_TIME){
+        		flagForButtonHold[i] = 1;
+        		initial_press[i] = 5;
+        	}
+        }
+        if(initial_press[i] == 2){
+        	if(counterForButtonRelease[i] >= RELEASE_TIME){	// PRESS
+        		flagForButtonPress[i] = 1;
+        		initial_press[i] = 0;
+        	}
+        }
+        if(initial_press[i] == 3 || initial_press[i] == 6){	// TAP HOLD
+        	if(counterForButtonHold[i] >= HOLD_TIME){
+        		flagForButtonTapHold[i] = 1;
+        		initial_press[i] = 6;
+        	}
+        }
+        if(initial_press[i] == 4){
+        	if(counterForButtonRelease[i] >= RELEASE_TIME){	// DOUBLE TAP
+        		flagForButtonDoubleTap[i] = 1;
+        		initial_press[i] = 0;
+        	}
+        }
+
 #ifdef UNIT_TEST
         if(i == 0) test_button = 0;
         test_button = test_button | !buttonBuffer[i];
@@ -117,15 +135,29 @@ unsigned char is_button_double_tap(unsigned char index) {
     return (flagForButtonDoubleTap[index] == 1);
 }
 
-unsigned char is_button_tap_holc(unsigned char index) {
+unsigned char is_button_tap_hold(unsigned char index) {
     if (index >= NUMBER_OF_BUTTONS)
         return 0;
     return (flagForButtonTapHold[index] == 1);
 }
-
 #ifdef UNIT_TEST
-void unit_test_button_read(){
+void unit_test_button_press(){
 	if(test_button == 1) HAL_GPIO_WritePin(TEST_Button_GPIO_Port, TEST_Button_Pin, RESET);
 	if(test_button == 0) HAL_GPIO_WritePin(TEST_Button_GPIO_Port, TEST_Button_Pin, SET);
+}
+
+void unit_test_button_read(){
+	if(flagForButtonPress[0] == 1){
+		display7SEG(0);
+	}
+	else if(flagForButtonHold[0] == 1){
+		display7SEG(1);
+	}
+	else if(flagForButtonDoubleTap[0] == 1){
+		display7SEG(2);
+	}
+	else if(flagForButtonTapHold[0] == 1){
+		display7SEG(3);
+	}
 }
 #endif

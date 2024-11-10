@@ -8,6 +8,7 @@
 #ifndef INC_GLOBAL_H_
 #define INC_GLOBAL_H_
 
+#define UNIT_TEST
 #define P_CLOCK
 #ifdef P_CLOCK
   int p_flag;
@@ -34,9 +35,13 @@ uint8_t timer_flag[NUM_FLAG];
 #define MAX_LED 4
 uint8_t led_buffer[MAX_LED];
 uint8_t led_index;
+uint8_t led_counter[2];
+typedef enum{
+	traffic,
+	counter
+}update_from;
 
 // traffic light
-uint8_t counter[2];
 
 typedef enum whichWay{
 	main_way,
