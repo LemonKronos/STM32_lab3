@@ -10,6 +10,7 @@
 
 #define UNIT_TEST
 #define P_CLOCK
+
 #ifdef P_CLOCK
   int p_flag;
   int p_dur;
@@ -24,12 +25,12 @@ void p_clockRun();
 	 *0 blinky led
 	 *1 main way
 	 *2 side way
-	 *3 1s count down for 7seg led
+	 *3 1s to count down for 7seg led
 	 *4 refresh for 7seg led
-	 *5
+	 *5 countdown 500ms in hold state
 	 * */
 
-uint8_t timer_flag[NUM_FLAG];
+volatile uint8_t timer_flag[NUM_FLAG];
 
 // 7 segment led
 #define MAX_LED 4
@@ -42,7 +43,7 @@ typedef enum{
 }update_from;
 
 // traffic light
-
+#define MAX_COUNT_DOWN 99
 typedef enum whichWay{
 	main_way,
 	side_way
@@ -57,6 +58,17 @@ typedef struct traffic_way{
 
 // button
 #define NUMBER_OF_BUTTONS 3
+
+typedef enum{
+	IDLE,
+	PRESS,
+	HOLD,
+	DOUBLE_TAP,
+	TAP_HOLD
+}button_state;
+
+button_state BUTTON[NUMBER_OF_BUTTONS];
+
 unsigned char
 	flagForButtonPress[NUMBER_OF_BUTTONS],
 	flagForButtonHold[NUMBER_OF_BUTTONS],
@@ -68,7 +80,8 @@ typedef enum machine_state{
 	mode1,
 	mode2,
 	mode3,
-	mode4
+	mode4,
+	modeReset
 }machine_state;
-machine_state m_mode;
+volatile machine_state m_mode;
 #endif /* INC_GLOBAL_H_ */

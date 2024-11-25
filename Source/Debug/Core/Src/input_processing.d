@@ -1,5 +1,6 @@
 Core/Src/input_processing.o: ../Core/Src/input_processing.c \
- ../Core/Inc/main.h ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h \
+ ../Core/Inc/input_processing.h ../Core/Inc/main.h \
+ ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h \
  ../Core/Inc/stm32f1xx_hal_conf.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_def.h \
@@ -23,7 +24,13 @@ Core/Src/input_processing.o: ../Core/Src/input_processing.c \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h \
- ../Core/Inc/input_reading.h ../Core/Inc/main.h ../Core/Inc/global.h
+ ../Core/Inc/global.h ../Core/Inc/input_reading.h \
+ ../Core/Inc/input_processing.h ../Core/Inc/display7seg.h \
+ ../Core/Inc/software_timer.h ../Core/Inc/traffic_light.h \
+ ../Core/Inc/fsm_run.h ../Core/Inc/main.h ../Core/Inc/global.h \
+ ../Core/Inc/display7seg.h
+
+../Core/Inc/input_processing.h:
 
 ../Core/Inc/main.h:
 
@@ -75,8 +82,22 @@ Core/Src/input_processing.o: ../Core/Src/input_processing.c \
 
 ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h:
 
+../Core/Inc/global.h:
+
 ../Core/Inc/input_reading.h:
+
+../Core/Inc/input_processing.h:
+
+../Core/Inc/display7seg.h:
+
+../Core/Inc/software_timer.h:
+
+../Core/Inc/traffic_light.h:
+
+../Core/Inc/fsm_run.h:
 
 ../Core/Inc/main.h:
 
 ../Core/Inc/global.h:
+
+../Core/Inc/display7seg.h:

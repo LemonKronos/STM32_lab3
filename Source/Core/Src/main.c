@@ -127,11 +127,10 @@ int main(void)
 	  unit_test_software_timer();
 //	  unit_test_7seg();
 	  unit_test_button_press();
-	  unit_test_button_read();
+//	  unit_test_button_read();
 
 	  // FSM
-//	  fsm_for_input_processing();
-//	  fsm_run(m_mode);
+	  fsm_run(m_mode);
   }
   /* USER CODE END 3 */
 }

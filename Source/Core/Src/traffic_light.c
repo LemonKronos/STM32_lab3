@@ -11,9 +11,9 @@
 #include "display7seg.h"
 
 traffic_mode	t_mode_main = RED,
-				t_mode_side = GREEN;
+				t_mode_side = YELLOW;
 
-void fsm_traffic(traffic_mode* mode, traffic_way* Tway, uint8_t* timer_flag){
+void fsm_traffic(traffic_mode* mode, traffic_way* Tway, volatile uint8_t* timer_flag){
 	switch(*mode){
 	case RED:
 		if(*timer_flag == 1){
@@ -40,7 +40,7 @@ void fsm_traffic(traffic_mode* mode, traffic_way* Tway, uint8_t* timer_flag){
 		}
 		break;
 	default:
-
+		*mode = RED;
 		break;
 	}
 }

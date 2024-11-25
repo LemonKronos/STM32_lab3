@@ -69,6 +69,7 @@ void display7SEG(uint8_t index){
 		HAL_GPIO_WritePin(EN3_GPIO_Port, EN3_Pin, RESET);
 		break;
 	default:
+		index = 0;
 		break;
 	}
 };
@@ -201,10 +202,10 @@ void number7SEG(uint8_t number){
 	        HAL_GPIO_WritePin(ports[6], pins[6], RESET);
 	        break;
 	    default:
-	        HAL_GPIO_WritePin(ports[0], pins[0], SET);
+	        HAL_GPIO_WritePin(ports[0], pins[0], RESET);
 	        HAL_GPIO_WritePin(ports[1], pins[1], SET);
 	        HAL_GPIO_WritePin(ports[2], pins[2], SET);
-	        HAL_GPIO_WritePin(ports[3], pins[3], SET);
+	        HAL_GPIO_WritePin(ports[3], pins[3], RESET);
 	        HAL_GPIO_WritePin(ports[4], pins[4], SET);
 	        HAL_GPIO_WritePin(ports[5], pins[5], SET);
 	        HAL_GPIO_WritePin(ports[6], pins[6], RESET);

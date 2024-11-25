@@ -43,4 +43,4 @@ traffic_way side_traffic = {
 };
 
 // finite state machine
-machine_state m_mode = mode1;
+volatile machine_state m_mode = mode1;

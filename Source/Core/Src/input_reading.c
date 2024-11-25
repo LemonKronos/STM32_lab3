@@ -7,12 +7,13 @@
 #include <input_reading.h>
 #include "main.h"
 #include "global.h"
+#include <string.h>
 
 // We aim to work with more than one button
 // Timer interrupt duration is 10ms, so to pass 1 second,
 // we need to jump to the interrupt service routine 100 times
 #define HOLD_TIME 100
-#define RELEASE_TIME 30
+#define RELEASE_TIME 20
 
 #define BUTTON_IS_PRESSED GPIO_PIN_RESET
 #define BUTTON_IS_RELEASED GPIO_PIN_SET
@@ -80,32 +81,33 @@ void button_reading(){
 
         //REGCONIZE
         if(initial_press[i] == 0){	// IDLE
-        	flagForButtonPress[i] = 0;
-        	flagForButtonHold[i] = 0;
-        	flagForButtonDoubleTap[i] = 0;
-        	flagForButtonTapHold[i] = 0;
+        	BUTTON[i] = IDLE;
         }
         if(initial_press[i] == 1 || initial_press[i] == 5){	// HOLD
         	if(counterForButtonHold[i] >= HOLD_TIME){
         		flagForButtonHold[i] = 1;
+        		BUTTON[i] = HOLD;
         		initial_press[i] = 5;
         	}
         }
         if(initial_press[i] == 2){
         	if(counterForButtonRelease[i] >= RELEASE_TIME){	// PRESS
         		flagForButtonPress[i] = 1;
+        		BUTTON[i] = PRESS;
         		initial_press[i] = 0;
         	}
         }
         if(initial_press[i] == 3 || initial_press[i] == 6){	// TAP HOLD
         	if(counterForButtonHold[i] >= HOLD_TIME){
         		flagForButtonTapHold[i] = 1;
+        		BUTTON[i] = TAP_HOLD;
         		initial_press[i] = 6;
         	}
         }
         if(initial_press[i] == 4){
         	if(counterForButtonRelease[i] >= RELEASE_TIME){	// DOUBLE TAP
         		flagForButtonDoubleTap[i] = 1;
+        		BUTTON[i] = DOUBLE_TAP;
         		initial_press[i] = 0;
         	}
         }
@@ -117,29 +119,45 @@ void button_reading(){
     }
 }
 
-unsigned char is_button_press(unsigned char index) {
-    if (index >= NUMBER_OF_BUTTONS)
-        return 0;
-    return (flagForButtonPress[index] == 1);
+//void resetButtonFlag(){
+//	for(uint8_t i = 0; i < NUMBER_OF_BUTTONS; i++){
+//		flagForButtonPress[i] = 0;
+//		flagForButtonHold[i] = 0;
+//		flagForButtonDoubleTap[i] = 0;
+//		flagForButtonTapHold[i] = 0;
+//	}
+//}
+
+void resetButtonFlag(){
+    memset(flagForButtonPress, 0, sizeof(flagForButtonPress));
+    memset(flagForButtonHold, 0, sizeof(flagForButtonHold));
+    memset(flagForButtonDoubleTap, 0, sizeof(flagForButtonDoubleTap));
+    memset(flagForButtonTapHold, 0, sizeof(flagForButtonTapHold));
 }
 
-unsigned char is_button_hold(unsigned char index) {
-    if (index >= NUMBER_OF_BUTTONS)
-        return 0;
-    return (flagForButtonHold[index] == 1);
-}
-
-unsigned char is_button_double_tap(unsigned char index) {
-    if (index >= NUMBER_OF_BUTTONS)
-        return 0;
-    return (flagForButtonDoubleTap[index] == 1);
-}
-
-unsigned char is_button_tap_hold(unsigned char index) {
-    if (index >= NUMBER_OF_BUTTONS)
-        return 0;
-    return (flagForButtonTapHold[index] == 1);
-}
+//unsigned char is_button_press(unsigned char index) {
+//    if (index >= NUMBER_OF_BUTTONS)
+//        return 0;
+//    return (flagForButtonPress[index] == 1);
+//}
+//
+//unsigned char is_button_hold(unsigned char index) {
+//    if (index >= NUMBER_OF_BUTTONS)
+//        return 0;
+//    return (flagForButtonHold[index] == 1);
+//}
+//
+//unsigned char is_button_double_tap(unsigned char index) {
+//    if (index >= NUMBER_OF_BUTTONS)
+//        return 0;
+//    return (flagForButtonDoubleTap[index] == 1);
+//}
+//
+//unsigned char is_button_tap_hold(unsigned char index) {
+//    if (index >= NUMBER_OF_BUTTONS)
+//        return 0;
+//    return (flagForButtonTapHold[index] == 1);
+//}
 #ifdef UNIT_TEST
 void unit_test_button_press(){
 	if(test_button == 1) HAL_GPIO_WritePin(TEST_Button_GPIO_Port, TEST_Button_Pin, RESET);
@@ -147,17 +165,33 @@ void unit_test_button_press(){
 }
 
 void unit_test_button_read(){
-	if(flagForButtonPress[0] == 1){
+//	if(flagForButtonPress[0] == 1){
+//		display7SEG(0);
+//	}
+//	else if(flagForButtonHold[0] == 1){
+//		display7SEG(1);
+//	}
+//	else if(flagForButtonDoubleTap[0] == 1){
+//		display7SEG(2);
+//	}
+//	else if(flagForButtonTapHold[0] == 1){
+//		display7SEG(3);
+//	}
+	switch(BUTTON[0]){
+	case IDLE:
+		break;
+	case PRESS:
 		display7SEG(0);
-	}
-	else if(flagForButtonHold[0] == 1){
+		break;
+	case HOLD:
 		display7SEG(1);
-	}
-	else if(flagForButtonDoubleTap[0] == 1){
+		break;
+	case DOUBLE_TAP:
 		display7SEG(2);
-	}
-	else if(flagForButtonTapHold[0] == 1){
+		break;
+	case TAP_HOLD:
 		display7SEG(3);
+		break;
 	}
 }
 #endif

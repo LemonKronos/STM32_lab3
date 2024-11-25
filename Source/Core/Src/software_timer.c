@@ -12,7 +12,7 @@
 
 uint8_t  currentTimerSlotWheel1 = 0, currentTimerSlotWheel2 = 0;
 
-void set_timer(uint32_t duration, uint8_t* timer_flag){
+void set_timer(uint32_t duration, volatile uint8_t* timer_flag){
 	*timer_flag = 0;
 	Timer* newTimer = (Timer*)malloc(sizeof(Timer));
 	if (newTimer == NULL) return;
@@ -29,6 +29,106 @@ void set_timer(uint32_t duration, uint8_t* timer_flag){
 		timerWheel1[newTimerSlot] = newTimer;
 	}
 }
+
+void cancel_timer(volatile uint8_t* timer_flag){
+//	uint8_t flagCancel = 0;
+	uint8_t index = 0;
+	while(index < WHEEL2 - 1){
+        Timer* processTimer = timerWheel2[index];
+        while(processTimer != NULL){
+        	if(processTimer->timer_flag == timer_flag){
+        		Timer* temp = processTimer;
+        		if(temp == timerWheel2[index]){// head
+        			timerWheel2[index] = temp->next;
+        		}
+					processTimer = temp->next;
+					free(temp);
+//					flagCancel = 1;
+					break;
+        	}
+        	else processTimer = processTimer->next;
+        }
+		index++;
+	}
+	index = 0;
+	while(index < WHEEL1 - 1){
+		Timer* processTimer = timerWheel1[index];
+		while(processTimer != NULL){
+			if(processTimer->timer_flag == timer_flag){
+				Timer* temp = processTimer;
+				if(temp == timerWheel1[index]){// head
+					timerWheel1[index] = temp->next;
+				}
+				processTimer = temp->next;
+				free(temp);
+//				flagCancel = 1;
+				break;
+			}
+			else processTimer = processTimer->next;
+		}
+		index++;
+	}
+}
+
+//void cancel_timer(uint8_t* timer_flag) {
+//    uint8_t flagCancel = 0;
+//    uint8_t index = 0;
+//
+//    // Cancel timer in timerWheel2
+//    while(index < WHEEL2 && flagCancel == 0) {
+//        Timer* processTimer = timerWheel2[index];
+//        Timer* prevTimer = NULL;
+//
+//        while(processTimer != NULL) {
+//            if(processTimer->timer_flag == timer_flag) {
+//                if(prevTimer == NULL) {
+//                    // processTimer is the head
+//                    timerWheel2[index] = processTimer->next;
+//                } else {
+//                    // processTimer is not the head
+//                    prevTimer->next = processTimer->next;
+//                }
+//
+//                free(processTimer);
+//                flagCancel = 1;
+//                break;
+//            }
+//
+//            // Move to the next node
+//            prevTimer = processTimer;
+//            processTimer = processTimer->next;
+//        }
+//        index++;
+//    }
+//
+//    // Reset index and check timerWheel1
+//    index = 0;
+//    while(index < WHEEL1 && flagCancel == 0) {
+//        Timer* processTimer = timerWheel1[index];
+//        Timer* prevTimer = NULL;
+//
+//        while(processTimer != NULL) {
+//            if(processTimer->timer_flag == timer_flag) {
+//                if(prevTimer == NULL) {
+//                    // processTimer is the head
+//                    timerWheel1[index] = processTimer->next;
+//                } else {
+//                    // processTimer is not the head
+//                    prevTimer->next = processTimer->next;
+//                }
+//
+//                free(processTimer);
+//                flagCancel = 1;
+//                break;
+//            }
+//
+//            // Move to the next node
+//            prevTimer = processTimer;
+//            processTimer = processTimer->next;
+//        }
+//        index++;
+//    }
+//}
 
 void timer_tick(){
     if (currentTimerSlotWheel1 <= 0){
