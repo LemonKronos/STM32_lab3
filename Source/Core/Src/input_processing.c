@@ -24,14 +24,14 @@ void fsm_input_driven_normal(){
 			Nmode = FREEZE;
 			resetButtonFlag();
 		}
-//		else if(flagForButtonPress[2] == 1){
-//			cancel_timer(&timer_flag[1]);
-//			if(t_mode_main != GREEN){
-//				cancel_timer(&timer_flag[2]);
-//			}
-//			Nmode = FORWARD;
-//			resetButtonFlag();
-//		}
+		else if(flagForButtonPress[2] == 1){
+			cancel_timer(&timer_flag[1]);
+			if(t_mode_main != GREEN){
+				cancel_timer(&timer_flag[2]);
+			}
+			Nmode = FORWARD;
+			resetButtonFlag();
+		}
 //		else if(flagForButtonHold[2] == 1){
 //			cancel_timer(&timer_flag[1]);
 //			cancel_timer(&timer_flag[2]);
@@ -62,6 +62,14 @@ void fsm_input_driven_normal(){
 			set_timer(side_traffic.count_down *SEC, &timer_flag[2]);
 			set_timer(1000, &timer_flag[3]);
 			Nmode = NORMAL;
+			resetButtonFlag();
+		}
+		else if(flagForButtonPress[2] == 1){
+			cancel_timer(&timer_flag[1]);
+			if(t_mode_main != GREEN){
+				cancel_timer(&timer_flag[2]);
+			}
+			Nmode = FORWARD;
 			resetButtonFlag();
 		}
 		else{// RUN FREEZE
@@ -101,23 +109,24 @@ void fsm_input_driven_normal(){
 //		}
 		break;
 	case FORWARD:
-//		timer_flag[1] = 1;
-//		timer_flag[2] = 1;
-//		if(t_mode_main == GREEN){
-//			t_mode_side = YELLOW;
-//			fsm_traffic(&t_mode_side, &side_traffic, &timer_flag[2]);
-//			cancel_timer(&timer_flag[2]);
-//			set_timer(main_traffic.yellow *SEC, &timer_flag[2]);
-//			side_traffic.count_down = main_traffic.yellow + 1;
-//		}
-//		else if(t_mode_main == RED){
-//			t_mode_side = YELLOW;
-//		}
-//		Nmode = NORMAL;
-//		resetButtonFlag();
+		timer_flag[1] = 1;
+		timer_flag[2] = 1;
+		if(t_mode_main == GREEN){
+			t_mode_side = YELLOW;
+			fsm_traffic(&t_mode_side, &side_traffic, &timer_flag[2]);
+			cancel_timer(&timer_flag[2]);
+			set_timer(main_traffic.yellow *SEC, &timer_flag[2]);
+			side_traffic.count_down = main_traffic.yellow + 1;
+		}
+		else if(t_mode_main == RED){
+			t_mode_side = YELLOW;
+		}
+		Nmode = NORMAL;
+		resetButtonFlag();
 		break;
 	default:
 		Nmode = NORMAL;
+		HAL_GPIO_TogglePin(TEST_GPIO_Port, TEST_Pin);
 		break;
 	}
 }
@@ -152,7 +161,6 @@ void fsm_input_driven_config(ledColor color, uint8_t* time1, uint8_t* time2){
 					*time2 = *time2 - (*time1 - led_counter[0]);
 				}
 				*time1 = led_counter[0];
-				HAL_GPIO_TogglePin(TEST_GPIO_Port, TEST_Pin);
 			}
 
 			Cmode = WAIT;
@@ -179,7 +187,7 @@ void fsm_input_driven_config(ledColor color, uint8_t* time1, uint8_t* time2){
 	case UP_FAST:
 		if(BUTTON[1] == HOLD){
 			if(timer_flag[5] == 1){
-				set_timer(500, &timer_flag[5]);
+				set_timer(250, &timer_flag[5]);
 				if(led_counter[0] < MAX_COUNT_DOWN) led_counter[0]++;
 				else led_counter[0] = 0;
 				update7SEG(counter);
@@ -211,7 +219,7 @@ void fsm_input_driven_config(ledColor color, uint8_t* time1, uint8_t* time2){
 	case DOWN_FAST:
 		if(BUTTON[1] == TAP_HOLD){
 			if(timer_flag[5] == 1){
-				set_timer(500, &timer_flag[5]);
+				set_timer(250, &timer_flag[5]);
 				if(led_counter[0] > 0) led_counter[0]--;
 				else led_counter[0] = MAX_COUNT_DOWN;
 				update7SEG(counter);

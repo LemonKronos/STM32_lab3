@@ -13,13 +13,12 @@
 #include "input_processing.h"
 
 void fsm_run(machine_state mode){
+	if(flagForButtonHold[0] == 1){
+		m_mode = modeReset;
+	}
 	switch(mode){
 	case mode1:// run normally
-		if(flagForButtonHold[0] == 1){
-			m_mode = modeReset;
-			resetButtonFlag();
-		}
-		else if(flagForButtonPress[0] == 1){
+		if(flagForButtonPress[0] == 1){
 			m_mode = mode2;
 			cancel_timer(&timer_flag[1]);
 			cancel_timer(&timer_flag[2]);
@@ -33,11 +32,7 @@ void fsm_run(machine_state mode){
 		break;
 
 	case mode2:
-		if(flagForButtonHold[0] == 1){
-			m_mode = modeReset;
-			resetButtonFlag();
-		}
-		else if(flagForButtonPress[0] == 1){
+		if(flagForButtonPress[0] == 1){
 			m_mode = mode3;
 			flushLed();
 			led_counter[0] = main_traffic.yellow;
@@ -49,11 +44,7 @@ void fsm_run(machine_state mode){
 		break;
 
 	case mode3:
-		if(flagForButtonHold[0] == 1){
-			m_mode = modeReset;
-			resetButtonFlag();
-		}
-		else if(flagForButtonPress[0] == 1){
+		if(flagForButtonPress[0] == 1){
 			m_mode = mode4;
 			flushLed();
 			led_counter[0] = main_traffic.green;
@@ -65,11 +56,7 @@ void fsm_run(machine_state mode){
 		break;
 
 	case mode4:
-		if(flagForButtonHold[0] == 1){
-			m_mode = modeReset;
-			resetButtonFlag();
-		}
-		else if(flagForButtonPress[0] == 1){
+		if(flagForButtonPress[0] == 1){
 			m_mode = mode1;
 			t_mode_main = RED;
 			t_mode_side = YELLOW;
@@ -83,36 +70,38 @@ void fsm_run(machine_state mode){
 		else fsm_input_driven_config(lGREEN, &main_traffic.green, &side_traffic.red);
 		break;
 
-	case modeReset:
-		resetButtonFlag();
-		cancel_timer(&timer_flag[1]);
-		cancel_timer(&timer_flag[2]);
-		cancel_timer(&timer_flag[3]);
-		cancel_timer(&timer_flag[4]);
-		cancel_timer(&timer_flag[5]);
-		set_timer(1000, &timer_flag[1]);
-		set_timer(1000, &timer_flag[2]);
-		set_timer(1000, &timer_flag[3]);
-		set_timer(1000, &timer_flag[4]);
-		set_timer(1000, &timer_flag[5]);
-
-		main_traffic.count_down = 1;
-		main_traffic.red = 4;
-		main_traffic.yellow = 2;
-		main_traffic.green = 4;
-
-		side_traffic.count_down = 1;
-		side_traffic.red = 6;
-		side_traffic.yellow = 1;
-		side_traffic.green = 3;
-
-		m_mode = mode1;
-		t_mode_main = RED,
-		t_mode_side = YELLOW;
-		break;
-
-	default:
-		mode = mode1;
+	default:// modeReset
+		if(BUTTON[0] != HOLD){
+			NVIC_SystemReset();
+//			cancel_timer(&timer_flag[0]);
+//			cancel_timer(&timer_flag[1]);
+//			cancel_timer(&timer_flag[2]);
+//			cancel_timer(&timer_flag[3]);
+//			cancel_timer(&timer_flag[4]);
+//			cancel_timer(&timer_flag[5]);
+//			set_timer(1000, &timer_flag[0]);
+//			set_timer(1000, &timer_flag[1]);
+//			set_timer(1000, &timer_flag[2]);
+//			set_timer(1000, &timer_flag[3]);
+//			set_timer(1000, &timer_flag[4]);
+//			set_timer(1000, &timer_flag[5]);
+//
+//			t_mode_main = RED,
+//			main_traffic.count_down = 1;
+//			main_traffic.red = 4;
+//			main_traffic.yellow = 2;
+//			main_traffic.green = 4;
+//
+//			t_mode_side = YELLOW;
+//			side_traffic.count_down = 1;
+//			side_traffic.red = 6;
+//			side_traffic.yellow = 1;
+//			side_traffic.green = 3;
+//
+//			m_mode = mode1;
+//			resetButtonFlag();
+//			HAL_GPIO_TogglePin(TEST_GPIO_Port, TEST_Pin);
+		}
 		break;
 	}
 }

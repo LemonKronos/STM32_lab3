@@ -31,9 +31,9 @@ void set_timer(uint32_t duration, volatile uint8_t* timer_flag){
 }
 
 void cancel_timer(volatile uint8_t* timer_flag){
-//	uint8_t flagCancel = 0;
+	uint8_t flagCancel = 0;
 	uint8_t index = 0;
-	while(index < WHEEL2 - 1){
+	while(index < WHEEL2 - 1 && flagCancel != 1){
         Timer* processTimer = timerWheel2[index];
         while(processTimer != NULL){
         	if(processTimer->timer_flag == timer_flag){
@@ -43,7 +43,7 @@ void cancel_timer(volatile uint8_t* timer_flag){
         		}
 					processTimer = temp->next;
 					free(temp);
-//					flagCancel = 1;
+					flagCancel = 1;
 					break;
         	}
         	else processTimer = processTimer->next;
@@ -51,7 +51,7 @@ void cancel_timer(volatile uint8_t* timer_flag){
 		index++;
 	}
 	index = 0;
-	while(index < WHEEL1 - 1){
+	while(index < WHEEL1 - 1 && flagCancel != 1){
 		Timer* processTimer = timerWheel1[index];
 		while(processTimer != NULL){
 			if(processTimer->timer_flag == timer_flag){
@@ -61,74 +61,16 @@ void cancel_timer(volatile uint8_t* timer_flag){
 				}
 				processTimer = temp->next;
 				free(temp);
-//				flagCancel = 1;
+				flagCancel = 1;
 				break;
 			}
 			else processTimer = processTimer->next;
 		}
 		index++;
 	}
+//	if(flagCancel == 0) HAL_GPIO_WritePin(TEST_GPIO_Port, TEST_Pin, RESET);
+//	else HAL_GPIO_WritePin(TEST_GPIO_Port, TEST_Pin, SET);
 }
-
-//void cancel_timer(uint8_t* timer_flag) {
-//    uint8_t flagCancel = 0;
-//    uint8_t index = 0;
-//
-//    // Cancel timer in timerWheel2
-//    while(index < WHEEL2 && flagCancel == 0) {
-//        Timer* processTimer = timerWheel2[index];
-//        Timer* prevTimer = NULL;
-//
-//        while(processTimer != NULL) {
-//            if(processTimer->timer_flag == timer_flag) {
-//                if(prevTimer == NULL) {
-//                    // processTimer is the head
-//                    timerWheel2[index] = processTimer->next;
-//                } else {
-//                    // processTimer is not the head
-//                    prevTimer->next = processTimer->next;
-//                }
-//
-//                free(processTimer);
-//                flagCancel = 1;
-//                break;
-//            }
-//
-//            // Move to the next node
-//            prevTimer = processTimer;
-//            processTimer = processTimer->next;
-//        }
-//        index++;
-//    }
-//
-//    // Reset index and check timerWheel1
-//    index = 0;
-//    while(index < WHEEL1 && flagCancel == 0) {
-//        Timer* processTimer = timerWheel1[index];
-//        Timer* prevTimer = NULL;
-//
-//        while(processTimer != NULL) {
-//            if(processTimer->timer_flag == timer_flag) {
-//                if(prevTimer == NULL) {
-//                    // processTimer is the head
-//                    timerWheel1[index] = processTimer->next;
-//                } else {
-//                    // processTimer is not the head
-//                    prevTimer->next = processTimer->next;
-//                }
-//
-//                free(processTimer);
-//                flagCancel = 1;
-//                break;
-//            }
-//
-//            // Move to the next node
-//            prevTimer = processTimer;
-//            processTimer = processTimer->next;
-//        }
-//        index++;
-//    }
-//}
 
 void timer_tick(){
     if (currentTimerSlotWheel1 <= 0){
