@@ -9,9 +9,7 @@
 #include "global.h"
 #include <string.h>
 
-// We aim to work with more than one button
-// Timer interrupt duration is 10ms, so to pass 1 second,
-// we need to jump to the interrupt service routine 100 times
+
 #define HOLD_TIME 100
 #define RELEASE_TIME 20
 
